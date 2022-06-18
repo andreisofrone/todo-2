@@ -1,9 +1,20 @@
+using Application.Common;
+using Domain.Repositories;
+using Infrastructure.Context;
+using Infrastructure.Todos.Storage;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+var assemblies = new[] { typeof(IApplication).Assembly };
 
-// Add services to the container.
 
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+builder.Services.AddMediatR(assemblies);
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("Todos"));
+builder.Services.AddMvc();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
@@ -14,6 +25,7 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod()
         .AllowAnyOrigin());
 });
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -21,6 +33,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var context = app.Services.GetService<AppDbContext>();
+//AddTestData(context);
 
 //app.UseHttpsRedirection();
 

@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Domain.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-
+using Microsoft.Extensions.Logging;
+//using Newtonsoft.Json;
 
 [ApiController]
 [EnableCors("AnyPolicy")]
@@ -27,7 +28,7 @@ public class TodoController : ControllerBase
         using (StreamReader r = new StreamReader("./data.json"))
         {
             string json = r.ReadToEnd();
-            todos = JsonConvert.DeserializeObject<List<Todo>>(json);
+            //todos = JsonConvert.DeserializeObject<List<Todo>>(json);
         }
         return todos;
     }

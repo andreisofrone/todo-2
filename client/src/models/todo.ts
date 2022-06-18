@@ -3,9 +3,7 @@ export class Todo {
   title!: string;
   content!: string;
   creationTime!: number;
-
   dueDate!: number;
-
   status!: string;
   type!: string;
 }
