@@ -1,6 +1,9 @@
-﻿namespace Application.Todos.Messages.Queries
+﻿using Domain.Models;
+
+namespace Application.Todos.Messages.Queries
 {
-    internal class GetAllTodosQuery
+    public class GetAllTodosQuery
+        : IQuery<IEnumerable<Todo>>
     {
     }
 }

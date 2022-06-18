@@ -1,35 +1,21 @@
-﻿using Domain.Models;
+﻿using Application.Todos.Messages.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-//using Newtonsoft.Json;
 
 [ApiController]
 [EnableCors("AnyPolicy")]
 [Route("api/todos")]
-public class TodoController : ControllerBase
+public class TodosController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+    private readonly IMediator _mediator;
 
-    private readonly ILogger<TodoController> _logger;
-
-    public TodoController(ILogger<TodoController> logger)
+    public TodosController(IMediator mediator)
     {
-        _logger = logger;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public IEnumerable<Todo> Get()
-    {
-        List<Todo> todos = new List<Todo>();
-        using (StreamReader r = new StreamReader("./data.json"))
-        {
-            string json = r.ReadToEnd();
-            //todos = JsonConvert.DeserializeObject<List<Todo>>(json);
-        }
-        return todos;
-    }
+    public async Task<IActionResult> GetAsync()
+            => Ok(await _mediator.Send(new GetAllTodosQuery()));
 }

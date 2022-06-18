@@ -5,16 +5,13 @@ namespace Domain.Seeds
 {
     public static class TodosSeed
     {
-        private static IEnumerable<Todo> GetTestData()
+        public static IEnumerable<Todo> GetTestData()
         {
-            var todos = new List<Todo>();
-            using (StreamReader r = new StreamReader("./data.json"))
+            using (StreamReader r = new StreamReader("../Domain/Seeds/data.json"))
             {
                 string json = r.ReadToEnd();
-                todos = JsonConvert.DeserializeObject<List<Todo>>(json);
+                return JsonConvert.DeserializeObject<List<Todo>>(json);
             }
-
-            return todos;
         }
     }
 }

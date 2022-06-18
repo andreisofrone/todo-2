@@ -1,5 +1,6 @@
 using Application.Common;
 using Domain.Repositories;
+using Domain.Seeds;
 using Infrastructure.Context;
 using Infrastructure.Todos.Storage;
 using MediatR;
@@ -34,8 +35,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var context = app.Services.GetService<AppDbContext>();
-//AddTestData(context);
+var options = new DbContextOptionsBuilder<AppDbContext>()
+   .UseInMemoryDatabase(databaseName: "Todos")
+   .Options;
+
+using (var context = new AppDbContext(options))
+{
+    var data = TodosSeed.GetTestData();
+
+    context.AddRangeAsync(data);
+    context.SaveChanges();
+}
 
 //app.UseHttpsRedirection();
 

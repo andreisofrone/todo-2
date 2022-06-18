@@ -2,7 +2,7 @@
 {
     public interface IRepository<T> where T : class
     {
-        Task<IQueryable<T>> GetAll();
+        IQueryable<T> GetAll();
 
         Task<T> FindByIdAsync(long id);
 

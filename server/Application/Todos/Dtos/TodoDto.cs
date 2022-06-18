@@ -1,7 +1,6 @@
-namespace Domain.Models
+﻿namespace Application.Todos.Dtos
 {
-    public class Todo
-        : IEntity
+    public class TodoDto
     {
         public string Id { get; set; }
 

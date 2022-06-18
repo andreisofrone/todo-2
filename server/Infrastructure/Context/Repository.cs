@@ -12,9 +12,9 @@ namespace Infrastructure.Context
             this.context = context;
         }
 
-        public virtual async Task<IQueryable<T>> GetAll()
+        public virtual IQueryable<T> GetAll()
         {
-            return await Task.Run(() => context.Set<T>().AsQueryable());
+            return context.Set<T>();
         }
 
         public virtual async Task<T> FindByIdAsync(long id)
