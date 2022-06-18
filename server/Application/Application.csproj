@@ -6,10 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Todos\Dtos\" />
-    <Folder Include="Todos\Messages\Commands\" />
-    <Folder Include="Todos\Validation\" />
-  </ItemGroup>
-
 </Project>
