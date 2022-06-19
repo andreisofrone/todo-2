@@ -15,7 +15,7 @@ export default function App() {
 	const todos = useSelector(selectors.selectTodos);
 
 	useEffect(() => {
-		dispatch(getTodos());
+		todos?.length == 0 && dispatch(getTodos());
 	}, []);
 
 	return (

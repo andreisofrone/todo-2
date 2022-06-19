@@ -1,4 +1,4 @@
-import { call, takeEvery, put } from "redux-saga/effects";
+import { call, takeEvery, put, takeLatest } from "redux-saga/effects";
 import { getTodos } from "../services/base-service";
 import * as actionCreator from "./slice";
 
@@ -12,5 +12,5 @@ function* fetchDataSaga() {
 }
 
 export default function* rootSaga() {
-	yield takeEvery(actionCreator.getTodos, fetchDataSaga);
+	yield takeLatest(actionCreator.getTodos, fetchDataSaga);
 }
