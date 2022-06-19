@@ -11,6 +11,11 @@ export const todoSlice = createSlice({
 		fetchData: (state, action) => {
 			state.todos = action.payload;
 		},
+		sortByStatus: (state, action) => {
+			let result = state.todos.sort((a, b) => a.status.localeCompare(b.status));
+			if (action.payload == "Done") result = result.reverse();
+			state.todos = result;
+		},
 	},
 });
 

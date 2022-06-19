@@ -17,7 +17,7 @@ namespace Infrastructure.Context
             return context.Set<T>();
         }
 
-        public virtual async Task<T> FindByIdAsync(long id)
+        public virtual async Task<T> FindByIdAsync(string id)
         {
             return await context.Set<T>().FindAsync(id);
         }
@@ -25,16 +25,19 @@ namespace Infrastructure.Context
         public virtual async Task AddAsync(T entity)
         {
             await context.Set<T>().AddAsync(entity);
+            await context.SaveChangesAsync();
         }
 
-        public virtual void Update(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
             context.Set<T>().Update(entity);
+            await context.SaveChangesAsync();
         }
 
-        public virtual void Delete(T entity)
+        public async Task Delete(T entity)
         {
             context.Set<T>().Remove(entity);
+            await context.SaveChangesAsync();
         }
     }
 }

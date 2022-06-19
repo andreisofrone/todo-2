@@ -4,12 +4,12 @@
     {
         IQueryable<T> GetAll();
 
-        Task<T> FindByIdAsync(long id);
+        Task<T> FindByIdAsync(string id);
 
         Task AddAsync(T entity);
 
-        void Update(T entity);
+        Task UpdateAsync(T entity);
 
-        void Delete(T entity);
+        Task Delete(T entity);
     }
 }

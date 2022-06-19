@@ -1,4 +1,5 @@
-﻿using Application.Todos.Messages.Queries;
+﻿using Application.Todos.Messages.Commands;
+using Application.Todos.Messages.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -18,4 +19,12 @@ public class TodosController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAsync()
             => Ok(await _mediator.Send(new GetAllTodosQuery()));
+
+    [HttpPatch]
+    [Route("set-as-done/{Id}")]
+    public async Task<IActionResult> SetAsDone([FromRoute] SetAsDoneCommand command)
+    {
+        await _mediator.Send(command);
+        return Accepted(command);
+    }
 }
