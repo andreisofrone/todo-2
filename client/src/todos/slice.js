@@ -16,9 +16,13 @@ export const todoSlice = createSlice({
 			if (action.payload == "Done") result = result.reverse();
 			state.todos = result;
 		},
+		setTodoAsDone: (state, action) => {
+			state.todos.find(t => t.id == action.payload.id).status = "Done";
+		},
 	},
 });
 
 export const getTodos = createAction(`${sliceName}/getTodos`);
+export const setTodoAsDone = createAction(`${sliceName}/setTodoAsDone`);
 export default todoSlice.reducer;
 export const { actions } = todoSlice;

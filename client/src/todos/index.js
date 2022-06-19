@@ -4,9 +4,9 @@ import Grid from "@mui/material/Grid";
 import "../App.css";
 import { useDispatch, useSelector } from "react-redux";
 import * as selectors from "./selectors";
-import { getTodos } from "./slice";
+import { getTodos, setTodoAsDone } from "./slice";
 import Todo from "./todo";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -23,7 +23,11 @@ export default function App() {
 		dispatch(actionCreator.actions.sortByStatus(event.target.value));
 	};
 
-	const handleSetAsDone = () => {};
+	const handleSetAsDone = id => {
+		debugger
+		dispatch(setTodoAsDone(id));
+		dispatch(actionCreator.actions.sortByStatus(status));
+	};
 
 	useEffect(() => {
 		todos?.length == 0 && dispatch(getTodos());
@@ -57,7 +61,7 @@ export default function App() {
 						{todos &&
 							todos.map(todo => (
 								<Grid key={todo.id} item xs={10}>
-									<Todo content={todo} handleSetAsDone={handleSetAsDone} />
+									<Todo content={todo} handleSetAsDone={() => handleSetAsDone(todo.id)} />
 								</Grid>
 							))}
 					</Grid>
