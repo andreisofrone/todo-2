@@ -2,10 +2,10 @@ import { call, takeEvery, put, takeLatest } from "redux-saga/effects";
 import * as apiService from "../services/base-service";
 import * as actionCreator from "./slice";
 
-function* getTodos() {
+function* getTodos(action) {
 	try {
-		let result = yield call(apiService.getTodos);
-		yield put(actionCreator.actions.fetchData(result.data));
+		let result = yield call(apiService.getTodos, action.payload);
+		yield put(actionCreator.actions.getTodos(result.data));
 	} catch (e) {
 		yield put(actionCreator.actions.fetchData([]));
 	}

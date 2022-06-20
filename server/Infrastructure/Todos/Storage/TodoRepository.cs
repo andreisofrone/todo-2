@@ -15,5 +15,11 @@ namespace Infrastructure.Todos.Storage
 
         public async Task<IEnumerable<Todo>> GetAllAsync()
                 => await GetAll().ToListAsync();
+
+        public async Task<IEnumerable<Todo>> GetAllAsync(int skip, int take)
+                => await GetAll().Skip(skip).Take(take).ToListAsync();
+
+        public async Task<int> CountAsync()
+                => await GetAll().CountAsync();
     }
 }

@@ -8,10 +8,10 @@ const sliceName = "todos";
 export const todoSlice = createSlice({
 	name: "todo",
 	initialState: {
-		todos: [],
+		todos: null,
 	},
 	reducers: {
-		fetchData: (state, action) => {
+		getTodos: (state, action) => {
 			state.todos = action.payload;
 		},
 		sortByStatus: (state, action) => {

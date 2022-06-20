@@ -36,8 +36,34 @@ export default function App() {
 	};
 
 	useEffect(() => {
-		todos?.length == 0 && dispatch(getTodos());
+		todos ||
+			dispatch(
+				getTodos({
+					page: paginationSettings.currentPage,
+					perPage: paginationSettings.entriesPerPage,
+				})
+			);
 	}, []);
+
+	useEffect(() => {
+		dispatch(
+			getTodos({
+				page: paginationSettings.currentPage,
+				perPage: paginationSettings.entriesPerPage,
+			})
+		);
+	}, [paginationSettings.currentPage]);
+
+	useEffect(() => {
+		setPaginationSettings({ ...paginationSettings, currentPage: 1 });
+
+		dispatch(
+			getTodos({
+				page: 1,
+				perPage: paginationSettings.entriesPerPage,
+			})
+		);
+	}, [paginationSettings.entriesPerPage]);
 
 	const setCurrentPage = number => {
 		setPaginationSettings({ ...paginationSettings, currentPage: number });
@@ -88,7 +114,7 @@ export default function App() {
 					</Grid>
 					<Grid item xs={12}>
 						{todos &&
-							todos.map(todo => (
+							todos.items.map(todo => (
 								<Grid key={todo.id} item xs={10}>
 									<Todo content={todo} handleSetAsDone={() => handleSetAsDone(todo.id)} />
 								</Grid>
@@ -98,7 +124,7 @@ export default function App() {
 						<Pagination
 							elPerPages={[4, 8, 48]}
 							currentPage={paginationSettings.currentPage}
-							totalPages={Math.ceil(todos.length / paginationSettings.entriesPerPage)}
+							totalPages={Math.ceil(todos?.count / paginationSettings.entriesPerPage)}
 							gotoPage={(e, pageNo) => setCurrentPage(pageNo)}
 							entriesPerPage={paginationSettings.entriesPerPage}
 							setEntriesPerPage={e => setEntriesPerPage(e.target.value)}

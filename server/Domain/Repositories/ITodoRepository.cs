@@ -6,5 +6,9 @@ namespace Domain.Repositories
     : IRepository<Todo>
     {
         Task<IEnumerable<Todo>> GetAllAsync();
+
+        Task<IEnumerable<Todo>> GetAllAsync(int skip, int take);
+
+        Task<int> CountAsync();
     }
 }

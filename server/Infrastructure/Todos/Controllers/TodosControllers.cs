@@ -17,8 +17,8 @@ public class TodosController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAsync()
-            => Ok(await _mediator.Send(new GetAllTodosQuery()));
+    public async Task<IActionResult> GetAsync([FromQuery] GetAllTodosQuery query)
+            => Ok(await _mediator.Send(query));
 
     [HttpPatch]
     [Route("set-as-done/{Id}")]

@@ -1,7 +1,9 @@
 using Application.Common;
 using Domain.Repositories;
 using Domain.Seeds;
+using Infrastructure;
 using Infrastructure.Context;
+using Infrastructure.Todos.MappingProfiles;
 using Infrastructure.Todos.Storage;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,7 @@ builder.Services.AddMediatR(assemblies);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("Todos"));
 builder.Services.AddMvc();
-
+builder.Services.AddAutoMapper(typeof(IInfrastructure).Assembly);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
