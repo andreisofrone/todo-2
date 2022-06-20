@@ -9,7 +9,7 @@ const Todo = ({ content, handleSetAsDone }) => {
 	return (
 		<Card>
 			<CardContent>
-				<Typography color="textPrimary" gutterBottom>
+				<Typography data-testid="todo-title" color="textPrimary" gutterBottom>
 					{content.title}
 				</Typography>
 				<Typography variant="body2" color="textSecondary" component="p">
