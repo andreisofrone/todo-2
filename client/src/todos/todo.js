@@ -12,16 +12,16 @@ const Todo = ({ content, handleSetAsDone }) => {
 				<Typography data-testid="todo-title" color="textPrimary" gutterBottom>
 					{content.title}
 				</Typography>
-				<Typography variant="body2" color="textSecondary" component="p">
+				<Typography data-testid="todo-creationTime" variant="body2" color="textSecondary" component="p">
 					{new Date(content.creationTime).toLocaleDateString()}
 				</Typography>
-				<Typography variant="body2" color="textSecondary" component="p">
+				<Typography data-testid="todo-status" variant="body2" color="textSecondary" component="p">
 					{content.status}
 				</Typography>
-				<Typography variant="body2" color="textSecondary" component="p">
+				<Typography data-testid="todo-content" variant="body2" color="textSecondary" component="p">
 					{content.content}
 				</Typography>
-				<Typography variant="body2" color="textSecondary" component="p">
+				<Typography data-testid="todo-dueDate" variant="body2" color="textSecondary" component="p">
 					{new Date(content.dueDate).toLocaleDateString()}
 				</Typography>
 			</CardContent>

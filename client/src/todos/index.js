@@ -84,6 +84,7 @@ export default function App() {
 				<Grid container spacing={10}>
 					<Grid item xs={2}>
 						<FormControlSelect
+							key="status-form-control-select"
 							id="status"
 							menuItems={[
 								{ name: STATUS.ACTIVE, value: STATUS.ACTIVE },
@@ -97,6 +98,7 @@ export default function App() {
 					<Grid item xs={2}>
 						<FormControlSelect
 							id="sort-by-date"
+							key="sort-by-date-form-control-select"
 							menuItems={[
 								{ name: SORT.ASC, value: SORT.ASC },
 								{ name: SORT.DESC, value: SORT.DESC },
@@ -108,6 +110,7 @@ export default function App() {
 					</Grid>
 					<Grid item xs={2}>
 						<FormControlSelect
+							key="filter-form-control-select"
 							id="filter"
 							menuItems={[
 								{ name: FILTER_OPTIONS.RESULTS, value: FILTER_OPTIONS.RESULTS },
@@ -120,7 +123,7 @@ export default function App() {
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<TextField id="search-field" label="Search" variant="outlined" />
+						<TextField key="search-field" label="Search" variant="outlined" />
 					</Grid>
 					<Grid item xs={12}>
 						{todos &&
@@ -132,6 +135,7 @@ export default function App() {
 					</Grid>
 					<Grid item xs={12}>
 						<Pagination
+							key="pagination-key"
 							elPerPages={[4, 8, 48]}
 							currentPage={paginationSettings.currentPage}
 							totalPages={Math.ceil(todos?.count / paginationSettings.entriesPerPage)}
