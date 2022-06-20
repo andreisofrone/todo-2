@@ -25,7 +25,7 @@ const Todo = ({ content, handleSetAsDone }) => {
 					{new Date(content.dueDate).toLocaleDateString()}
 				</Typography>
 			</CardContent>
-			{handleSetAsDone && content.status == STATUS.ACTIVE && (
+			{handleSetAsDone && content.status === STATUS.ACTIVE && (
 				<Button variant="text" onClick={handleSetAsDone}>
 					Set as done
 				</Button>

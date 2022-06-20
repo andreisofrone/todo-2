@@ -1,7 +1,7 @@
 import React from "react";
 import Pagination from "@mui/material/Pagination";
 import { v4 as generateUid } from "uuid";
-import { Grid, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
+import { Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 export default props => {
 	const { elPerPages, gotoPage, totalPages, currentPage, entriesPerPage, setEntriesPerPage } = props;

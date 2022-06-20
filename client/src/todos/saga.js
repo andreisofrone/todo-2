@@ -1,4 +1,4 @@
-import { call, takeEvery, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import * as apiService from "../services/base-service";
 import * as actionCreator from "./slice";
 

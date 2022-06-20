@@ -1,5 +1,5 @@
 import { createSlice, createAction } from "@reduxjs/toolkit";
-import { STATUS, SORT } from "./utils";
+import { STATUS } from "./utils";
 import _ from "lodash";
 import moment from "moment";
 
@@ -40,13 +40,13 @@ export const todoSlice = createSlice({
 		},
 		sortByStatus: (state, action) => {
 			let result = state.todos.items.sort((a, b) => a.status.localeCompare(b.status));
-			if (action.payload == STATUS.DONE) result = result.reverse();
+			if (action.payload === STATUS.DONE) result = result.reverse();
 			state.todos.items = result;
 		},
 		setTodoAsDone: (state, action) => {
 			const todos = state.todos.items;
 			const lastDoneIndex = todos.findLastIndex(t => t.status === STATUS.DONE);
-			const currentIndex = todos.findIndex(t => t.id == action.payload.id);
+			const currentIndex = todos.findIndex(t => t.id === action.payload.id);
 			const todo = todos.splice(currentIndex, 1)[0];
 
 			todo.status = STATUS.DONE;

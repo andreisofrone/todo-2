@@ -10,6 +10,7 @@ import * as actionCreator from "./slice";
 import FormControlSelect from "../common-components/form-control-select";
 import { STATUS, SORT, FILTER_OPTIONS } from "./utils";
 import Pagination from "../common-components/pagination";
+import TextField from "@mui/material/TextField";
 
 export default function App() {
 	// const classes = useStyles();
@@ -81,7 +82,7 @@ export default function App() {
 					padding: "30px",
 				}}>
 				<Grid container spacing={10}>
-					<Grid item xs={3}>
+					<Grid item xs={2}>
 						<FormControlSelect
 							id="status"
 							menuItems={[
@@ -93,7 +94,7 @@ export default function App() {
 							label="Order by status"
 						/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={2}>
 						<FormControlSelect
 							id="sort-by-date"
 							menuItems={[
@@ -105,7 +106,7 @@ export default function App() {
 							label="Sort by date"
 						/>
 					</Grid>
-					<Grid item xs={3}>
+					<Grid item xs={2}>
 						<FormControlSelect
 							id="filter"
 							menuItems={[
@@ -117,6 +118,9 @@ export default function App() {
 							onChange={handleFilterChange}
 							label="Filter"
 						/>
+					</Grid>
+					<Grid item xs={3}>
+						<TextField id="search-field" label="Search" variant="outlined" />
 					</Grid>
 					<Grid item xs={12}>
 						{todos &&
