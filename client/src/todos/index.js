@@ -9,6 +9,7 @@ import Todo from "./todo";
 import * as actionCreator from "./slice";
 import FormControlSelect from "../common-components/form-control-select";
 import { STATUS, SORT } from "./utils";
+import Pagination from "../common-components/pagination";
 
 export default function App() {
 	// const classes = useStyles();
@@ -16,6 +17,10 @@ export default function App() {
 	const todos = useSelector(selectors.selectTodos);
 	const [status, setStatus] = useState("");
 	const [sortByDate, setSortByDate] = useState("");
+	const [paginationSettings, setPaginationSettings] = useState({
+		entriesPerPage: 4,
+		currentPage: 1,
+	});
 
 	const handleStatusChange = event => {
 		setStatus(event.target.value);
@@ -33,6 +38,14 @@ export default function App() {
 	useEffect(() => {
 		todos?.length == 0 && dispatch(getTodos());
 	}, []);
+
+	const setCurrentPage = number => {
+		setPaginationSettings({ ...paginationSettings, currentPage: number });
+	};
+
+	const setEntriesPerPage = number => {
+		setPaginationSettings({ ...paginationSettings, entriesPerPage: number });
+	};
 
 	return (
 		<>
@@ -80,6 +93,16 @@ export default function App() {
 									<Todo content={todo} handleSetAsDone={() => handleSetAsDone(todo.id)} />
 								</Grid>
 							))}
+					</Grid>
+					<Grid item xs={12}>
+						<Pagination
+							elPerPages={[4, 8, 48]}
+							currentPage={paginationSettings.currentPage}
+							totalPages={Math.ceil(todos.length / paginationSettings.entriesPerPage)}
+							gotoPage={(e, pageNo) => setCurrentPage(pageNo)}
+							entriesPerPage={paginationSettings.entriesPerPage}
+							setEntriesPerPage={e => setEntriesPerPage(e.target.value)}
+						/>
 					</Grid>
 				</Grid>
 			</Box>

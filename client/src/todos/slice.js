@@ -31,7 +31,6 @@ export const todoSlice = createSlice({
 
 		sortByDate: (state, action) => {
 			let result = [];
-			debugger;
 			result = _.orderBy(
 				state.todos,
 				function (o) {
