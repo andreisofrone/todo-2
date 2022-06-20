@@ -19,7 +19,6 @@ namespace Application.Todos.Handlers
 
         public async Task<TodosDto> Handle(GetAllTodosQuery request, CancellationToken cancellationToken)
         {
-            //check for null and validate
             var result = new TodosDto();
             var items = await _todoRepository.GetAllAsync(request.Skip, request.Take, request.Filter);
             var count = await _todoRepository.CountAsync(request.Filter);
