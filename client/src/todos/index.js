@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import "../App.css";
@@ -16,14 +16,16 @@ export default function App() {
 	// const classes = useStyles();
 	const dispatch = useDispatch();
 	const todos = useSelector(selectors.selectTodos);
-	const [status, setStatus] = useState("");
 	const sortByDate = useSelector(selectors.selectSortByDate);
 	const paginationSettings = useSelector(selectors.selectPaginationSettings);
 	const filter = useSelector(selectors.selectFilter);
+	const searchField = useSelector(selectors.selectSearchField);
+	const status = useSelector(selectors.selectStatus);
 
 	const handleStatusChange = event => {
-		setStatus(event.target.value);
-		dispatch(actionCreator.actions.sortByStatus(event.target.value));
+		const status = event.target.value;
+		dispatch(actionCreator.actions.setStatus(status));
+		dispatch(actionCreator.actions.sortByStatus(status));
 	};
 
 	const handleSetAsDone = id => {
@@ -37,7 +39,6 @@ export default function App() {
 
 	const handleFilterChange = event => {
 		const filter = event.target.value;
-
 		dispatch(actionCreator.actions.setFilter(filter));
 		dispatch(actionCreator.actions.setCurrentPage(1));
 		callGetTodos(1, paginationSettings.entriesPerPage, filter);
@@ -47,12 +48,13 @@ export default function App() {
 		todos.items.length || callGetTodos(paginationSettings.currentPage, paginationSettings.entriesPerPage, filter);
 	}, []);
 
-	const callGetTodos = (page, perPage, filter) => {
+	const callGetTodos = (page, perPage, filter, searchValue) => {
 		dispatch(
 			getTodos({
 				page,
 				perPage,
 				filter,
+				searchValue,
 			})
 		);
 	};
@@ -65,6 +67,12 @@ export default function App() {
 	const setEntriesPerPage = number => {
 		dispatch(actionCreator.actions.setEntriesPerPage(number));
 		callGetTodos(1, number, filter);
+	};
+
+	const handleSearchFieldChange = event => {
+		const searchField = event.target.value;
+		dispatch(actionCreator.actions.setSearchField(searchField));
+		callGetTodos(paginationSettings.currentPage, paginationSettings.entriesPerPage, filter, searchField);
 	};
 
 	return (
@@ -123,7 +131,7 @@ export default function App() {
 						/>
 					</Grid>
 					<Grid item xs={3}>
-						<TextField key="search-field" label="Search" variant="outlined" />
+						<TextField key="search-field" label="Search" variant="outlined" value={searchField} onChange={handleSearchFieldChange} />
 					</Grid>
 					<Grid item xs={12}>
 						{todos &&

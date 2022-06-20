@@ -11,3 +11,9 @@ export const selectPaginationSettings = createSelector([selectedPaginationSettin
 
 const selectedSortByDate = state => state.todo.sortByDate;
 export const selectSortByDate = createSelector([selectedSortByDate], sortByDate => sortByDate);
+
+const selectedSearchField = state => state.todo.searchField;
+export const selectSearchField = createSelector([selectedSearchField], searchField => searchField);
+
+const selectedStatus = state => state.todo.status;
+export const selectStatus = createSelector([selectedStatus], status => status);

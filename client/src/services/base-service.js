@@ -6,6 +6,7 @@ export const getTodos = config => {
 	let query = `?skip=${skip}&take=${take}`;
 
 	if (config.filter) query += `&filter=${config.filter}`;
+	if (config.searchValue) query += `&fastSearch=${config.searchValue}`;
 
 	return axiosInstance.get(`/todos${query}`);
 };

@@ -30,6 +30,7 @@ export const todoSlice = createSlice({
 		filter: "",
 		searchField: "",
 		sortByDate: "",
+		status: "",
 	},
 	reducers: {
 		getTodos: (state, action) => {
@@ -67,6 +68,12 @@ export const todoSlice = createSlice({
 		},
 		setSortByDate: (state, action) => {
 			state.sortByDate = action.payload;
+		},
+		setSearchField: (state, action) => {
+			state.searchField = action.payload;
+		},
+		setStatus: (state, action) => {
+			state.status = action.payload;
 		},
 	},
 });
