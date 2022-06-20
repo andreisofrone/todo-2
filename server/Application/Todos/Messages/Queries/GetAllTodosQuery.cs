@@ -11,5 +11,7 @@ namespace Application.Todos.Messages.Queries
         public int Take { get; set; }
 
         public string? Filter { get; set; }
+
+        public string? FastSearch { get; set; }
     }
 }

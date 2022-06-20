@@ -72,6 +72,7 @@ export default function App() {
 	const handleSearchFieldChange = event => {
 		const searchField = event.target.value;
 		dispatch(actionCreator.actions.setSearchField(searchField));
+		dispatch(actionCreator.actions.setCurrentPage(1));
 		callGetTodos(paginationSettings.currentPage, paginationSettings.entriesPerPage, filter, searchField);
 	};
 
