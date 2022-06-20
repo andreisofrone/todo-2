@@ -14,7 +14,7 @@ namespace Infrastructure.Todos.Storage
         }
 
         public async Task<IEnumerable<Todo>> GetAllAsync()
-                => await GetAll().ToListAsync();
+                => await GetAll().AsNoTracking().ToListAsync();
 
         public async Task<IEnumerable<Todo>> GetAllAsync(int skip = 0, int take = 0, string filter="")
         {
@@ -22,7 +22,7 @@ namespace Infrastructure.Todos.Storage
             if (!string.IsNullOrWhiteSpace(filter))
                 query = query.Where(e => e.Type.ToLower() == filter.ToLower());
             
-            query = query.Skip(skip).Take(take);
+            query = query.Skip(skip).Take(take).AsNoTracking();
 
             return await query.ToListAsync();
         }
@@ -32,7 +32,7 @@ namespace Infrastructure.Todos.Storage
             var query = GetAll();
 
             if (!string.IsNullOrWhiteSpace(filter))
-                query = query.Where(e => e.Type.ToLower() == filter.ToLower());
+                query = query.Where(e => e.Type.ToLower() == filter.ToLower()).AsNoTracking();
 
             return await query.CountAsync();
         }

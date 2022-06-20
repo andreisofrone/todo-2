@@ -1,5 +1,6 @@
 ﻿using Application.Todos.Messages.Commands;
 using Application.Todos.Messages.Queries;
+using Infrastructure.RedisCache;
 using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ public class TodosController : ControllerBase
     }
 
     [HttpGet]
+    [RedisCacheRouteFilterAttribute(480)]
     public async Task<IActionResult> GetAsync([FromQuery] GetAllTodosQuery query)
             => Ok(await _mediator.Send(query));
 
@@ -25,6 +27,7 @@ public class TodosController : ControllerBase
     public async Task<IActionResult> SetAsDone([FromRoute] SetAsDoneCommand command)
     {
         await _mediator.Send(command);
+
         return Accepted(command);
     }
 }
