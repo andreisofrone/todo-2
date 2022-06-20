@@ -2,7 +2,6 @@ import { render, fireEvent, screen } from "@testing-library/react";
 import Todo from "./todos/todo";
 import "@testing-library/jest-dom/extend-expect";
 
-//test block
 test("test todo card", () => {
 	const mock = {
 		id: "bdff234c-33d3-447f-80ee-84e43a23f01d",
