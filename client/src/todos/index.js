@@ -8,7 +8,7 @@ import { getTodos, setTodoAsDone } from "./slice";
 import Todo from "./todo";
 import * as actionCreator from "./slice";
 import FormControlSelect from "../common-components/form-control-select";
-import { STATUS, SORT } from "./utils";
+import { STATUS, SORT, FILTER_OPTIONS } from "./utils";
 import Pagination from "../common-components/pagination";
 
 export default function App() {
@@ -17,10 +17,8 @@ export default function App() {
 	const todos = useSelector(selectors.selectTodos);
 	const [status, setStatus] = useState("");
 	const [sortByDate, setSortByDate] = useState("");
-	const [paginationSettings, setPaginationSettings] = useState({
-		entriesPerPage: 4,
-		currentPage: 1,
-	});
+	const paginationSettings = useSelector(selectors.selectPaginationSettings);
+	const filter = useSelector(selectors.selectFilter);
 
 	const handleStatusChange = event => {
 		setStatus(event.target.value);
@@ -35,42 +33,46 @@ export default function App() {
 		dispatch(actionCreator.actions.sortByDate(event.target.value));
 	};
 
-	useEffect(() => {
-		todos ||
-			dispatch(
-				getTodos({
-					page: paginationSettings.currentPage,
-					perPage: paginationSettings.entriesPerPage,
-				})
-			);
-	}, []);
+	const handleFilterChange = event => {
+		dispatch(actionCreator.actions.setFilter(event.target.value));
+		dispatch(actionCreator.actions.setCurrentPage(1));
+	};
 
 	useEffect(() => {
+		todos || callGetTodos();
+	}, []);
+
+	const callGetTodos = () => {
 		dispatch(
 			getTodos({
 				page: paginationSettings.currentPage,
 				perPage: paginationSettings.entriesPerPage,
+				filter: filter,
 			})
 		);
-	}, [paginationSettings.currentPage]);
+	};
 
 	useEffect(() => {
-		setPaginationSettings({ ...paginationSettings, currentPage: 1 });
+		callGetTodos();
+	}, [paginationSettings, filter]);
 
+	useEffect(() => {
+		dispatch(actionCreator.actions.setCurrentPage(1));
 		dispatch(
 			getTodos({
 				page: 1,
 				perPage: paginationSettings.entriesPerPage,
+				filter: filter,
 			})
 		);
 	}, [paginationSettings.entriesPerPage]);
 
 	const setCurrentPage = number => {
-		setPaginationSettings({ ...paginationSettings, currentPage: number });
+		dispatch(actionCreator.actions.setCurrentPage(number));
 	};
 
 	const setEntriesPerPage = number => {
-		setPaginationSettings({ ...paginationSettings, entriesPerPage: number });
+		dispatch(actionCreator.actions.setEntriesPerPage(number));
 	};
 
 	return (
@@ -110,6 +112,19 @@ export default function App() {
 							value={sortByDate}
 							onChange={handleSortByDateChange}
 							label="Sort by date"
+						/>
+					</Grid>
+					<Grid item xs={3}>
+						<FormControlSelect
+							id="filter"
+							menuItems={[
+								{ name: FILTER_OPTIONS.RESULTS, value: FILTER_OPTIONS.RESULTS },
+								{ name: FILTER_OPTIONS.WINS, value: FILTER_OPTIONS.WINS },
+								{ name: FILTER_OPTIONS.WITHDRAW, value: FILTER_OPTIONS.WITHDRAW },
+							]}
+							value={filter}
+							onChange={handleFilterChange}
+							label="Filter"
 						/>
 					</Grid>
 					<Grid item xs={12}>

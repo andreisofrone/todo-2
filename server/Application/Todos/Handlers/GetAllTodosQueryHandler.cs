@@ -1,16 +1,13 @@
 ﻿using Application.Todos.Dtos;
 using Application.Todos.Messages.Queries;
 using AutoMapper;
-using Domain.Models;
 using Domain.Repositories;
-using MediatR;
 
 namespace Application.Todos.Handlers
 {
     public class GetAllTodosQueryHandler
-            : IRequestHandler<GetAllTodosQuery, TodosDto>
+            : IQueryHandler<GetAllTodosQuery, TodosDto>
     {
-
         private readonly ITodoRepository _todoRepository;
         private readonly IMapper _mapper;
 
@@ -22,9 +19,10 @@ namespace Application.Todos.Handlers
 
         public async Task<TodosDto> Handle(GetAllTodosQuery request, CancellationToken cancellationToken)
         {
+            //check for null and validate
             var result = new TodosDto();
-            var items = await _todoRepository.GetAllAsync(request.Skip, request.Take);
-            var count = await _todoRepository.CountAsync();
+            var items = await _todoRepository.GetAllAsync(request.Skip, request.Take, request.Filter);
+            var count = await _todoRepository.CountAsync(request.Filter);
             result.Items = _mapper.Map<IEnumerable<TodoDto>>(items);
             result.Count = count;
 

@@ -16,10 +16,25 @@ namespace Infrastructure.Todos.Storage
         public async Task<IEnumerable<Todo>> GetAllAsync()
                 => await GetAll().ToListAsync();
 
-        public async Task<IEnumerable<Todo>> GetAllAsync(int skip, int take)
-                => await GetAll().Skip(skip).Take(take).ToListAsync();
+        public async Task<IEnumerable<Todo>> GetAllAsync(int skip = 0, int take = 0, string filter="")
+        {
+            var query = GetAll();
+            if (!string.IsNullOrWhiteSpace(filter))
+                query = query.Where(e => e.Type.ToLower() == filter.ToLower());
+            
+            query = query.Skip(skip).Take(take);
 
-        public async Task<int> CountAsync()
-                => await GetAll().CountAsync();
+            return await query.ToListAsync();
+        }
+
+        public async Task<int> CountAsync(string filter = "")
+        {
+            var query = GetAll();
+
+            if (!string.IsNullOrWhiteSpace(filter))
+                query = query.Where(e => e.Type.ToLower() == filter.ToLower());
+
+            return await query.CountAsync();
+        }
     }
 }

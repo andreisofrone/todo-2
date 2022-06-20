@@ -1,12 +1,11 @@
 ﻿using Application.Todos.Messages.Commands;
 using Domain.Repositories;
-using MediatR;
 using static Domain.Enums.Enums;
 
 namespace Application.Todos.Handlers
 {
     public class SetAsDoneCommandHandler
-          : AsyncRequestHandler<SetAsDoneCommand>
+        : ICommandHandler<SetAsDoneCommand, string>
     {
         private readonly ITodoRepository _todoRepository;
 
@@ -15,12 +14,14 @@ namespace Application.Todos.Handlers
             _todoRepository = todoRepository;
         }
 
-        protected override async Task Handle(SetAsDoneCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(SetAsDoneCommand request, CancellationToken cancellationToken)
         {
             var todo = await _todoRepository.FindByIdAsync(request.Id);
             todo.Status = Status.Done.ToString();
 
             await _todoRepository.UpdateAsync(todo);
+
+            return request.Id;
         }
     }
 }

@@ -7,8 +7,8 @@ namespace Domain.Repositories
     {
         Task<IEnumerable<Todo>> GetAllAsync();
 
-        Task<IEnumerable<Todo>> GetAllAsync(int skip, int take);
+        Task<IEnumerable<Todo>> GetAllAsync(int skip, int take, string filter = "");
 
-        Task<int> CountAsync();
+        Task<int> CountAsync(string filter = "");
     }
 }

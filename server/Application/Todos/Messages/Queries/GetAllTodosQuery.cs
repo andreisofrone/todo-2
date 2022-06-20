@@ -9,5 +9,7 @@ namespace Application.Todos.Messages.Queries
         public int Skip { get; set; }
 
         public int Take { get; set; }
+
+        public string? Filter { get; set; }
     }
 }
