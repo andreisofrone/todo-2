@@ -20,6 +20,9 @@ const Todo = ({ content, handleSetAsDone }) => {
 				<Typography variant="body2" color="textSecondary" component="p">
 					{content.content}
 				</Typography>
+				<Typography variant="body2" color="textSecondary" component="p">
+					{new Date(content.dueDate).toLocaleDateString()}
+				</Typography>
 			</CardContent>
 			{handleSetAsDone && (
 				<Button variant="text" onClick={handleSetAsDone}>

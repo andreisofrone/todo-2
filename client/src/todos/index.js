@@ -6,27 +6,28 @@ import { useDispatch, useSelector } from "react-redux";
 import * as selectors from "./selectors";
 import { getTodos, setTodoAsDone } from "./slice";
 import Todo from "./todo";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import * as actionCreator from "./slice";
+import FormControlSelect from "../common-components/form-control-select";
+import { STATUS, SORT } from "./utils";
 
 export default function App() {
 	// const classes = useStyles();
 	const dispatch = useDispatch();
 	const todos = useSelector(selectors.selectTodos);
-	const [status, setStatus] = React.useState("");
+	const [status, setStatus] = useState("");
+	const [sortByDate, setSortByDate] = useState("");
 
-	const handleChange = event => {
+	const handleStatusChange = event => {
 		setStatus(event.target.value);
 		dispatch(actionCreator.actions.sortByStatus(event.target.value));
 	};
 
 	const handleSetAsDone = id => {
-		debugger
 		dispatch(setTodoAsDone(id));
-		dispatch(actionCreator.actions.sortByStatus(status));
+	};
+	const handleSortByDateChange = event => {
+		setSortByDate(event.target.value);
+		dispatch(actionCreator.actions.sortByDate(event.target.value));
 	};
 
 	useEffect(() => {
@@ -49,13 +50,28 @@ export default function App() {
 				}}>
 				<Grid container spacing={10}>
 					<Grid item xs={3}>
-						<FormControl fullWidth>
-							<InputLabel id="status-label">Order by status</InputLabel>
-							<Select labelId="status-select-label" id="status-select" value={status} label="Order by status" onChange={handleChange}>
-								<MenuItem value="Active">Active</MenuItem>
-								<MenuItem value="Done">Done</MenuItem>
-							</Select>
-						</FormControl>
+						<FormControlSelect
+							id="status"
+							menuItems={[
+								{ name: STATUS.ACTIVE, value: STATUS.ACTIVE },
+								{ name: STATUS.DONE, value: STATUS.DONE },
+							]}
+							value={status}
+							onChange={handleStatusChange}
+							label="Order by status"
+						/>
+					</Grid>
+					<Grid item xs={3}>
+						<FormControlSelect
+							id="sort-by-date"
+							menuItems={[
+								{ name: SORT.ASC, value: SORT.ASC },
+								{ name: SORT.DESC, value: SORT.DESC },
+							]}
+							value={sortByDate}
+							onChange={handleSortByDateChange}
+							label="Sort by date"
+						/>
 					</Grid>
 					<Grid item xs={12}>
 						{todos &&
