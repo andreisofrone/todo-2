@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { STATUS } from "../todos/utils";
 
 const Todo = ({ content, handleSetAsDone }) => {
 	return (
@@ -24,7 +25,7 @@ const Todo = ({ content, handleSetAsDone }) => {
 					{new Date(content.dueDate).toLocaleDateString()}
 				</Typography>
 			</CardContent>
-			{handleSetAsDone && (
+			{handleSetAsDone && content.status == STATUS.ACTIVE && (
 				<Button variant="text" onClick={handleSetAsDone}>
 					Set as done
 				</Button>

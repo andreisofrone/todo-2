@@ -16,7 +16,7 @@ export default function App() {
 	const dispatch = useDispatch();
 	const todos = useSelector(selectors.selectTodos);
 	const [status, setStatus] = useState("");
-	const [sortByDate, setSortByDate] = useState("");
+	const sortByDate = useSelector(selectors.selectSortByDate);
 	const paginationSettings = useSelector(selectors.selectPaginationSettings);
 	const filter = useSelector(selectors.selectFilter);
 
@@ -28,57 +28,42 @@ export default function App() {
 	const handleSetAsDone = id => {
 		dispatch(setTodoAsDone(id));
 	};
+
 	const handleSortByDateChange = event => {
-		setSortByDate(event.target.value);
+		dispatch(actionCreator.actions.setSortByDate(event.target.value));
 		dispatch(actionCreator.actions.sortByDate(event.target.value));
 	};
 
 	const handleFilterChange = event => {
-		dispatch(actionCreator.actions.setFilter(event.target.value));
+		const filter = event.target.value;
+
+		dispatch(actionCreator.actions.setFilter(filter));
 		dispatch(actionCreator.actions.setCurrentPage(1));
-		dispatch(
-			getTodos({
-				page: 1,
-				perPage: paginationSettings.entriesPerPage,
-				filter: event.target.value,
-			})
-		);
+		callGetTodos(1, paginationSettings.entriesPerPage, filter);
 	};
 
 	useEffect(() => {
-		todos.items.length || callGetTodos();
+		todos.items.length || callGetTodos(paginationSettings.currentPage, paginationSettings.entriesPerPage, filter);
 	}, []);
 
-	const callGetTodos = () => {
+	const callGetTodos = (page, perPage, filter) => {
 		dispatch(
 			getTodos({
-				page: paginationSettings.currentPage,
-				perPage: paginationSettings.entriesPerPage,
-				filter: filter,
+				page,
+				perPage,
+				filter,
 			})
 		);
 	};
 
 	const setCurrentPage = number => {
 		dispatch(actionCreator.actions.setCurrentPage(number));
-		dispatch(
-			getTodos({
-				page: number,
-				perPage: paginationSettings.entriesPerPage,
-				filter: filter,
-			})
-		);
+		callGetTodos(number, paginationSettings.entriesPerPage, filter);
 	};
 
 	const setEntriesPerPage = number => {
 		dispatch(actionCreator.actions.setEntriesPerPage(number));
-		dispatch(
-			getTodos({
-				page: 1,
-				perPage: number,
-				filter: filter,
-			})
-		);
+		callGetTodos(1, number, filter);
 	};
 
 	return (

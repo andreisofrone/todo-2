@@ -9,6 +9,16 @@ export const paginationSettingsInitialState = {
 	currentPage: 1,
 };
 
+const orderTodosByDate = (todos, order) => {
+	return _.orderBy(
+		todos,
+		function (o) {
+			return new moment(o.dueDate);
+		},
+		[order]
+	);
+};
+
 export const todoSlice = createSlice({
 	name: "todo",
 	initialState: {
@@ -19,10 +29,14 @@ export const todoSlice = createSlice({
 		paginationSettings: paginationSettingsInitialState,
 		filter: "",
 		searchField: "",
+		sortByDate: "",
 	},
 	reducers: {
 		getTodos: (state, action) => {
-			state.todos = action.payload;
+			if (state.sortByDate) {
+				state.todos.count = action.payload.count;
+				state.todos.items = orderTodosByDate(action.payload.items, state.sortByDate);
+			} else state.todos = action.payload;
 		},
 		sortByStatus: (state, action) => {
 			let result = state.todos.items.sort((a, b) => a.status.localeCompare(b.status));
@@ -40,16 +54,7 @@ export const todoSlice = createSlice({
 		},
 
 		sortByDate: (state, action) => {
-			let result = [];
-			result = _.orderBy(
-				state.todos.items,
-				function (o) {
-					return new moment(o.dueDate);
-				},
-				[action.payload]
-			);
-
-			state.todos.items = result;
+			state.todos.items = orderTodosByDate(state.todos.items, action.payload);
 		},
 		setCurrentPage: (state, action) => {
 			state.paginationSettings.currentPage = action.payload;
@@ -59,6 +64,9 @@ export const todoSlice = createSlice({
 		},
 		setFilter: (state, action) => {
 			state.filter = action.payload;
+		},
+		setSortByDate: (state, action) => {
+			state.sortByDate = action.payload;
 		},
 	},
 });
