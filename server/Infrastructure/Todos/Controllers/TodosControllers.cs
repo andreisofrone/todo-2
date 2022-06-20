@@ -28,6 +28,6 @@ public class TodosController : ControllerBase
     {
         await _mediator.Send(command);
 
-        return Accepted(command);
+        return Ok(command);
     }
 }

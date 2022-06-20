@@ -36,10 +36,17 @@ export default function App() {
 	const handleFilterChange = event => {
 		dispatch(actionCreator.actions.setFilter(event.target.value));
 		dispatch(actionCreator.actions.setCurrentPage(1));
+		dispatch(
+			getTodos({
+				page: 1,
+				perPage: paginationSettings.entriesPerPage,
+				filter: event.target.value,
+			})
+		);
 	};
 
 	useEffect(() => {
-		todos || callGetTodos();
+		todos.items.length || callGetTodos();
 	}, []);
 
 	const callGetTodos = () => {
@@ -52,27 +59,26 @@ export default function App() {
 		);
 	};
 
-	useEffect(() => {
-		callGetTodos();
-	}, [paginationSettings, filter]);
-
-	useEffect(() => {
-		dispatch(actionCreator.actions.setCurrentPage(1));
+	const setCurrentPage = number => {
+		dispatch(actionCreator.actions.setCurrentPage(number));
 		dispatch(
 			getTodos({
-				page: 1,
+				page: number,
 				perPage: paginationSettings.entriesPerPage,
 				filter: filter,
 			})
 		);
-	}, [paginationSettings.entriesPerPage]);
-
-	const setCurrentPage = number => {
-		dispatch(actionCreator.actions.setCurrentPage(number));
 	};
 
 	const setEntriesPerPage = number => {
 		dispatch(actionCreator.actions.setEntriesPerPage(number));
+		dispatch(
+			getTodos({
+				page: 1,
+				perPage: number,
+				filter: filter,
+			})
+		);
 	};
 
 	return (

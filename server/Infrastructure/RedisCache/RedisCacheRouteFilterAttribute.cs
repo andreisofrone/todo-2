@@ -35,8 +35,8 @@ namespace Infrastructure.RedisCache
             //GET THE RESULT FROM REDIS BY KEY
             public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
             {
-                // REMOVE THIS TO ADD REDIS
-                return; 
+                // MOVE THIS AT THE END TO ADD REDIS
+                await base.OnActionExecutionAsync(context, next);
 
                 var queryKey = Key == string.Empty ? $"{context.HttpContext.Request.Path}{context.HttpContext.Request.QueryString.Value}" : Key;
 
@@ -59,14 +59,13 @@ namespace Infrastructure.RedisCache
                     
                 }
 
-                await base.OnActionExecutionAsync(context, next);
             }
 
             // SET THE RESULT IN REDIS 
             public override void OnActionExecuted(ActionExecutedContext context)
             {
-                // REMOVE THIS TO ADD REDIS
-                return;
+                // MOVE THIS AT THE END TO ADD REDIS
+                base.OnActionExecuted(context);
 
                 var queryKey = Key == string.Empty ? $"{context.HttpContext.Request.Path}{context.HttpContext.Request.QueryString.Value}" : Key;
 
@@ -79,7 +78,6 @@ namespace Infrastructure.RedisCache
                 {
                 }
 
-                base.OnActionExecuted(context);
             }
         }
     }
