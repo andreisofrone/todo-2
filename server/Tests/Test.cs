@@ -8,7 +8,7 @@ namespace Tests
     public class Test
     {
         [Fact]
-        public async void CountDbItems()
+        public async void Count_Db_Items()
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()
                        .UseInMemoryDatabase(databaseName: "Todos")
