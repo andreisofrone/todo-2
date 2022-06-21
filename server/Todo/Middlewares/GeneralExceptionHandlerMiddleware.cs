@@ -6,9 +6,15 @@ namespace Todo.Middlewares
     {
         protected RequestDelegate Next { get; }
 
-        public GeneralExceptionHandlerMiddleware(RequestDelegate next)
+        // protected ILogger Logger { get; }
+
+        public GeneralExceptionHandlerMiddleware(
+            RequestDelegate next
+            //ILogger logger
+            )
         {
-            Next = next ?? throw new ArgumentNullException(next.GetType().ToString());
+            Next = next;
+            //  Logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -19,6 +25,7 @@ namespace Todo.Middlewares
             }
             catch (Exception ex)
             {
+                //  Logger.LogError($"{ex.Message}: {ex.StackTrace}");
                 context.Response.Clear();
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
