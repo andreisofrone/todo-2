@@ -18,7 +18,7 @@ public class TodosController : ControllerBase
     }
 
     [HttpGet]
-    [RedisCacheRouteFilterAttribute(480)]
+    //[RedisCacheRouteFilterAttribute(480)]
     public async Task<IActionResult> GetAsync([FromQuery] GetAllTodosQuery query)
             => Ok(await _mediator.Send(query));
 
